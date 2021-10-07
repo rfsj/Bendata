@@ -1,5 +1,5 @@
 #import libraries
-
+import pandas as pd
 import dash
 import dash_html_components as html
 import dash_core_components as dcc
@@ -9,9 +9,8 @@ from dash.dependencies import Output, Input
 #Conectando
 from loadData import import_csv_data
 from loadData import import_data_reader
-
-#teste
-import pandas as pd
+from benford import count_first_digit
+from benford import get_expected_counts
 
 df = import_data_reader(2020, 1, 1,2020, 12, 3)
 BS = "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
