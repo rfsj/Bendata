@@ -7,10 +7,11 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Output, Input
 
 #Conectando
-from loadData import import_csv_data
-from loadData import import_data_reader
+import random
+import benfordslaw
+import loadData
 
-
+data = loadData.import_csv_data()
 #df = import_data_reader(2020, 1, 1,2020, 12, 3)
 BS = "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 app = dash.Dash(__name__, external_stylesheets = [BS], 

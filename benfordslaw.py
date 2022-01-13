@@ -1,4 +1,3 @@
-#https://towardsdatascience.com/frawd-detection-using-benfords-law-python-code-9db8db474cf8
 #import libraries
 import numpy as np
 import pandas as pd
@@ -7,9 +6,7 @@ import math
 import matplotlib.pyplot as plt
 import collections
 
-
-
-#codedrome
+#Função calculate retirada do codedrome --> https://www.codedrome.com/benfords-law-in-python/
 BENFORD_PERCENTAGES = [0, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046]
 
 def calculate(data):

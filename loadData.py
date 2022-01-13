@@ -23,16 +23,10 @@ def import_data_reader(yyyy,m,d,zzzz,n,e):
     
 #mais complexo
 #def load_data(var):
-#    csv_file_path = askopenfilename()
-#   df = pd.read_csv(csv_file_path)
-#   data=df[var]
-#   return df,data
-
-     
-
-
-
-
+#   csv_file_path = askopenfilename()
+ #  df = pd.read_csv(csv_file_path)
+ #  data=df[var]
+ #  return df,data
 
 #teste de resultado
 #dados = load_data()
