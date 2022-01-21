@@ -1,7 +1,7 @@
 import pandas as pd
 from tkinter import *
 from tkinter.filedialog import askopenfilename
-import pandas_datareader.data as web
+#import pandas_datareader.data as web
 import datetime
 import tkinter as tk
 #import full database
@@ -10,6 +10,24 @@ def import_csv_data():
     df = pd.read_csv(csv_file_path, sep = ",") #sep usando quando a separação é em ;
     return df
 
+def import_data_find_column():
+    csv_file_path = askopenfilename()
+    df = pd.read_csv(csv_file_path, sep = ",") #sep usando quando a separação é em ;
+    column = df.keys()
+    col = []
+    for n in column:
+        col.append(n)
+    return df, col
+
+def import_data_find_column_os(filename):
+    csv_file_path = filename
+    df = pd.read_csv(csv_file_path, sep = ",") #sep usando quando a separação é em ;
+    column = df.keys()
+    col = []
+    for n in column:
+        col.append(n)
+    return df, col
+
 #import specific column
 def import_by_column():
     csv_file_path = askopenfilename()
@@ -17,7 +35,6 @@ def import_by_column():
     name_column = input("digite o nome da coluna: ")
     column = data_import[name_column].astype(str).tolist() 
     return column
-
 
 
 
