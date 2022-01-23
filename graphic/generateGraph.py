@@ -14,3 +14,4 @@ def graph_bar_benford(number, benford_frequency_percent):
     plt.ylabel('Porcetagem')
     plt.title('Plot')
     plt.show()    
+

@@ -4,12 +4,15 @@ from tkinter.filedialog import askopenfilename
 #import pandas_datareader.data as web
 import datetime
 import tkinter as tk
+import os
+import streamlit as st
 #import full database
 def import_csv_data():
     csv_file_path = askopenfilename()
     df = pd.read_csv(csv_file_path, sep = ",") #sep usando quando a separação é em ;
     return df
 
+#import data and columns by askopenfilename
 def import_data_find_column():
     csv_file_path = askopenfilename()
     df = pd.read_csv(csv_file_path, sep = ",") #sep usando quando a separação é em ;
@@ -19,6 +22,7 @@ def import_data_find_column():
         col.append(n)
     return df, col
 
+#import data and columns by os
 def import_data_find_column_os(filename):
     csv_file_path = filename
     df = pd.read_csv(csv_file_path, sep = ",") #sep usando quando a separação é em ;
@@ -28,15 +32,25 @@ def import_data_find_column_os(filename):
         col.append(n)
     return df, col
 
+#turn into list separade
+def tolist(data, keyscolumn_select):
+    data_list = data[keyscolumn_select].astype(str).tolist() 
+    return data_list
+
+
 #import specific column
 def import_by_column():
     csv_file_path = askopenfilename()
-    data_import = pd.read_csv(csv_file_path, sep = ",") #sep usando quando a separação é em ;
+    data_import = pd.read_csv(csv_file_path, sep = ",") #separators (, and ;)
     name_column = input("digite o nome da coluna: ")
-    column = data_import[name_column].astype(str).tolist() 
+    column = data_import[name_column].astype(str).tolist() #transform into a list built into the function
     return column
 
 
+def file_selector(folder_path='.'):
+    filenames = os.listdir(folder_path)
+    selected_filename = st.sidebar.selectbox('Select a file', filenames)
+    return os.path.join(folder_path, selected_filename)
 
 
 
