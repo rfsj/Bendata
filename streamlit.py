@@ -18,12 +18,13 @@ lateral_bar = st.sidebar.empty()
 #streamlit() text center element 
 st.title('''Benford Law's''')
 
-st.header('data')
+#st.header('data')
 
-st.subheader('graphic view')
+#st.subheader('graphic view')
 
 #load data via os part 1
 filename = loadData.file_selector()
+
 
 #streamlit()text sidebar
 st.sidebar.write('You selected `%s`' % filename)
@@ -48,7 +49,7 @@ specific_column_transform_to_list = loadData.tolist(data, keyscolumn_select)
 benford_table = calculateBenford.calculate(specific_column_transform_to_list)
 
 #streamlit() select column
-carregar_dados = st.sidebar.checkbox('Carregar dados')
+#carregar_dados = st.sidebar.checkbox('Carregar dados')
 
 #data processing aux function
 number = data_number(benford_table)
@@ -59,19 +60,40 @@ benford_frequency_percent = benford_freq_perc(benford_table)
 difference_frequency = data_freq_difference(benford_table)
 difference_frequency_percent = data_freq_difference_perc(benford_table)
 
-
+#chart_bar = graph_bar_join(number, data_frequency_percent)
 
 
 #graphics
-graph_bara = st.empty()
+graph_bar_chart = st.empty()
+graph_line = st.empty()
 
+
+data_graph = pd.DataFrame(benford_table)
+
+#bar chart
+bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=400, title="Data Frequency Percent VS Benford Frequency Percent")
+bar.update_yaxes(title_text="Frequency Percent")
+bar.update_xaxes(title_text="Number")
+
+#line 
+#line = px.line(data_frequency_percent, height=400, title="Data Frequency Percent VS Benford Frequency Percent")
+#line.update_yaxes(title_text="Frequency Percent")
+#line.update_xaxes(title_text="Number")
+
+#table chart
+
+
+#st.plotly_chart(fig)
+# st.dataframe(df) # if need to display dataframe
 
 
 
 #fig = px.bar(trace1, x='number', y='data_frequency_percent')
 
 try:
-    graph_bara = st.bar_chart(data_frequency_percent)
+    graph_bar_chart = st.plotly_chart(bar)
+    #graph_line = st.line_chart(line)
+
 except Exception as e:
     st.error(e)
 
@@ -79,8 +101,6 @@ except Exception as e:
 def main():
     
     print("| Benford's Law |")
-    #print(graph_bara) 
-    print(data_frequency_percent)
-    print(data_frequency)
-    print(number)
+    print(data_graph) 
+    #print(line) 
 main()
