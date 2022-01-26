@@ -23,9 +23,21 @@ st.title('''Benford Law's''')
 #st.subheader('graphic view')
 
 #load data via os part 1
+
 filename = loadData.file_selector()
-
-
+try: 
+    os.makedirs(filename)
+except OSError:
+    if os.path.isdir(filename):
+        st.write('Cannot access this entry')
+        st.write("Try to change file in -- 'Select a file'")
+        st.stop()
+    #elif not pd.errors.ParserError:
+     #   st.write('Caaa')
+#except Exception as e:    
+ #       errortype = e.message.split('.')[0].strip()                                
+  #      if errortype == 'Error tokenizing data. C error': 
+  #          st.stop()
 #streamlit()text sidebar
 st.sidebar.write('You selected `%s`' % filename)
 
@@ -65,24 +77,30 @@ difference_frequency_percent = data_freq_difference_perc(benford_table)
 
 #graphics
 graph_bar_chart = st.empty()
-graph_line = st.empty()
+graph_pie = st.empty()
 
 
 data_graph = pd.DataFrame(benford_table)
 
 #bar chart
-bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=400, title="Data Frequency Percent VS Benford Frequency Percent")
+bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title="Data Frequency Percent VS Benford Frequency Percent")
 bar.update_yaxes(title_text="Frequency Percent")
 bar.update_xaxes(title_text="Number")
 
+
+#bar chart
+#bar_f = px.bar(benford_table, x="n", y=["data_frequency_percent", "difference_frequency_percent"], barmode='group', height=500, width = 1000, title="Data Frequency Percent VS Benford Frequency Percent")
+#bar_f.update_yaxes(title_text="Frequency Percent")
+#bar_f.update_xaxes(title_text="Number")
+
 #line 
-#line = px.line(data_frequency_percent, height=400, title="Data Frequency Percent VS Benford Frequency Percent")
-#line.update_yaxes(title_text="Frequency Percent")
-#line.update_xaxes(title_text="Number")
 
-#table chart
+lin = px.line(data_graph, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000)
 
+#pie chart
 
+pie1 = fig = px.pie(data_graph, values='data_frequency_percent')
+pie2 = fig = px.pie(data_graph, values='benford_frequency_percent')
 #st.plotly_chart(fig)
 # st.dataframe(df) # if need to display dataframe
 
@@ -92,15 +110,16 @@ bar.update_xaxes(title_text="Number")
 
 try:
     graph_bar_chart = st.plotly_chart(bar)
-    #graph_line = st.line_chart(line)
-
+    graph_bar_chart = st.plotly_chart(lin)
+    graph_pie = st.plotly_chart(pie1)
+    graph_pie = st.plotly_chart(pie2)
 except Exception as e:
-    st.error(e)
+     st.stop(e) 
+        
 
 
 def main():
     
     print("| Benford's Law |")
-    print(data_graph) 
-    #print(line) 
+    print(lin) 
 main()
