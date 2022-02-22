@@ -32,6 +32,17 @@ def import_data_find_column_os(filename):
         col.append(n)
     return df, col
 
+#dados abertos
+def import_data_find_column_os_data_open(filename):
+    csv_file_path = filename
+    df = pd.read_csv(csv_file_path, sep = ";", encoding='latin-1', on_bad_lines='skip') #sep usando quando a separação é em ;
+    column = df.keys()
+    col = []
+    for n in column:
+        col.append(n)
+    return df, col
+
+
 #turn into list separade
 def tolist(data, keyscolumn_select):
     data_list = data[keyscolumn_select].astype(str).tolist() 
@@ -52,7 +63,7 @@ def file_selector(folder_path='.'):
     selected_filename = st.sidebar.selectbox('Select a file', filenames)
     return os.path.join(folder_path, selected_filename)
 
-
+#dialect.delimiter
 
 
 

@@ -42,8 +42,9 @@ except OSError:
 st.sidebar.write('You selected `%s`' % filename)
 
 #load data via os part 2
-data_and_column = loadData.import_data_find_column_os(filename)
-
+#############################data_and_column = loadData.import_data_find_column_os(filename)
+#dados abertos
+data_and_column = loadData.import_data_find_column_os_data_open(filename)
 #############benford_table = calculateBenford.calculate(data[0])
 
 #df and keyscolumn
