@@ -65,16 +65,6 @@ def file_selector(folder_path='.'):
 
 #dialect.delimiter
 
-
-
-
-
-
-
-
-
-
-
 #teste datareader base da dados para testar futuramente
 def import_data_reader(yyyy,m,d,zzzz,n,e):
     start = datetime.datetime(yyyy,m,d)
