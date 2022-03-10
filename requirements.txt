@@ -2,3 +2,4 @@ tk
 streamlit
 plotly
 pandas
+matplotlib
