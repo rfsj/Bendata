@@ -1,11 +1,7 @@
 tkinter
-tkinter.filedialog
 os
 streamlit
-plotly.graph_objs
-plotly.offline
-plotly.express
+plotly
 pandas
 datetime
-tkinter
 random
