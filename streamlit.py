@@ -23,6 +23,15 @@ st.title('''Benford Law's''')
 #st.header('text')
 #st.subheader('text')
 
+st.write("DB username:", st.secrets["db_username"])
+st.write("DB password:", st.secrets["db_password"])
+st.write("My cool secrets:", st.secrets["my_cool_secrets"]["things_i_like"])
+
+
+st.write(
+    "Has environment variables been set:",
+    os.environ["db_username"] == st.secrets["db_username"],
+)
 ############################### load data via os part 1 ###############################
 
 filename = loadData.file_selector()
