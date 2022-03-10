@@ -1,9 +1,9 @@
 #Import Benford
 import random
-from benford.functionBenford import *
-from benford import calculateBenford
-from data import loadData
-from graphic.generateGraph import *
+from functionBenford import *
+from calculateBenford import *
+from loadData import *
+from generateGraph import *
 
 
 #Import blib aux data
@@ -29,7 +29,7 @@ st.title('''Benford Law's''')
 
 ############################### load data via os part 1 ###############################
 
-filename = loadData.file_selector()
+filename = file_selector()
 try: 
     os.makedirs(filename)
 except OSError:
@@ -51,7 +51,7 @@ st.sidebar.write('You selected `%s`' % filename)
 ############################ load data via os part 2 ###################################
 
 
-data_and_column = loadData.import_data_find_column_os_data_open(filename) #Option 1 --> sep = ";", encoding='latin-1', on_bad_lines='skip'
+data_and_column = import_data_find_column_os_data_open(filename) #Option 1 --> sep = ";", encoding='latin-1', on_bad_lines='skip'
 #data_and_column = loadData.import_data_find_column_os(filename) #Option 2 
 #benford_table = calculateBenford.calculate(data[0]) #Option 3
 
@@ -70,11 +70,11 @@ keyscolumn_select = st.sidebar.selectbox("Selecione a coluna:", keyscolumn)
 
 
 specific_column = data[keyscolumn_select]
-specific_column_transform_to_list = loadData.tolist(data, keyscolumn_select)
+specific_column_transform_to_list = tolist(data, keyscolumn_select)
 
 ############################ Use Benford ###################################
 
-benford_table = calculateBenford.calculate(specific_column_transform_to_list)
+benford_table = calculate(specific_column_transform_to_list)
 
 #streamlit() select column
 #carregar_dados = st.sidebar.checkbox('Carregar dados')
