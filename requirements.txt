@@ -1,9 +1,11 @@
-import os
-import streamlit as st
-import plotly.graph_objs as go
-import plotly.offline as py
-import plotly.express as px
-import pandas as pd
-import datetime
-import tkinter as tk
-import random
+tkinter
+tkinter.filedialog import askopenfilename
+os
+streamlit
+plotly.graph_objs
+plotly.offline
+plotly.express
+pandas
+datetime
+tkinter
+random
