@@ -5,6 +5,7 @@ from benford import calculateBenford
 from data import loadData
 from graphic.generateGraph import *
 
+
 #Import blib aux data
 from tkinter import *
 from tkinter.filedialog import askopenfilename
@@ -16,12 +17,6 @@ import plotly.graph_objs as go
 import plotly.offline as py
 import plotly.express as px
 
-############################### streamlit part 1 ###############################
-
-lateral_bar = st.sidebar.empty()
-st.title('''Benford Law's''')
-#st.header('text')
-#st.subheader('text')
 
 st.write("DB username:", st.secrets["db_username"])
 st.write("DB password:", st.secrets["db_password"])
@@ -32,6 +27,15 @@ st.write(
     "Has environment variables been set:",
     os.environ["db_username"] == st.secrets["db_username"],
 )
+
+############################### streamlit part 1 ###############################
+
+lateral_bar = st.sidebar.empty()
+st.title('''Benford Law's''')
+#st.header('text')
+#st.subheader('text')
+
+
 ############################### load data via os part 1 ###############################
 
 filename = loadData.file_selector()
