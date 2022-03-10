@@ -1,5 +1,5 @@
 tkinter
-tkinter.filedialog import askopenfilename
+tkinter.filedialog
 os
 streamlit
 plotly.graph_objs
