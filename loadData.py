@@ -1,5 +1,5 @@
 import pandas as pd
-from tkinter import *
+
 from tkinter.filedialog import askopenfilename
 #import pandas_datareader.data as web
 import datetime

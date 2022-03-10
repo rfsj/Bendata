@@ -2,12 +2,14 @@
 import random
 from functionBenford import *
 from calculateBenford import *
-from loadData import *
+from loadData import file_selector
+from loadData import import_data_find_column_os_data_open
+from loadData import tolist
 from generateGraph import *
 
 
 #Import blib aux data
-from tkinter import *
+
 from tkinter.filedialog import askopenfilename
 import os
 
