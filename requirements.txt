@@ -1,7 +1,3 @@
-from benford.functionBenford import *
-from benford import calculateBenford
-from data import loadData
-from graphic.generateGraph import *
 from tkinter import *
 from tkinter.filedialog import askopenfilename
 import os
