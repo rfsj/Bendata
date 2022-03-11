@@ -5,7 +5,6 @@ from calculateBenford import *
 from loadData import *
 from generateGraph import *
 
-
 #Import blib aux data
 #from tkinter import *
 #from tkinter.filedialog import askopenfilename
@@ -16,7 +15,6 @@ import streamlit as st
 import plotly.graph_objs as go
 import plotly.offline as py
 import plotly.express as px
-
 
 
 ############################### streamlit part 1 ###############################
