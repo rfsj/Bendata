@@ -1,5 +1,5 @@
 import pandas as pd
-
+from tkinter import *
 from tkinter.filedialog import askopenfilename
 #import pandas_datareader.data as web
 import datetime
@@ -62,6 +62,14 @@ def file_selector(folder_path='.'):
     filenames = os.listdir(folder_path)
     selected_filename = st.sidebar.selectbox('Select a file', filenames)
     return os.path.join(folder_path, selected_filename)
+
+def streamlit_upload(csv_file_path):
+    df = pd.read_csv(csv_file_path, sep = ";", encoding='latin-1', on_bad_lines='skip') #sep usando quando a separação é em ;
+    column = df.keys()
+    col = []
+    for n in column:
+        col.append(n)
+    return df, col
 
 #dialect.delimiter
 

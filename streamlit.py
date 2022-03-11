@@ -2,14 +2,12 @@
 import random
 from functionBenford import *
 from calculateBenford import *
-from loadData import file_selector
-from loadData import import_data_find_column_os_data_open
-from loadData import tolist
+from loadData import *
 from generateGraph import *
 
 
 #Import blib aux data
-
+from tkinter import *
 from tkinter.filedialog import askopenfilename
 import os
 
@@ -31,14 +29,15 @@ st.title('''Benford Law's''')
 
 ############################### load data via os part 1 ###############################
 
-filename = file_selector()
-try: 
-    os.makedirs(filename)
-except OSError:
-    if os.path.isdir(filename):
-        st.write('Cannot access this entry')
-        st.write("Try to change file in -- 'Select a file'")
-        st.stop()
+#filename = file_selector()
+csv_file_path = st.sidebar.file_uploader("Upload file", type='csv')
+#try: 
+    #os.makedirs(filename)
+#except OSError:
+    #if os.path.isdir(filename):
+        #st.write('Cannot access this entry')
+        #st.write("Try to change file in -- 'Select a file'")
+        #st.stop()
     #elif not pd.errors.ParserError:
      #   st.write('Caaa')
 #except Exception as e:    
@@ -48,12 +47,12 @@ except OSError:
 
 ############################ streamlit part 2 ###################################
 
-st.sidebar.write('You selected `%s`' % filename)
+st.sidebar.write('You selected `%s`' % csv_file_path)
 
 ############################ load data via os part 2 ###################################
 
 
-data_and_column = import_data_find_column_os_data_open(filename) #Option 1 --> sep = ";", encoding='latin-1', on_bad_lines='skip'
+data_and_column = streamlit_upload(csv_file_path) #Option 1 --> sep = ";", encoding='latin-1', on_bad_lines='skip'
 #data_and_column = loadData.import_data_find_column_os(filename) #Option 2 
 #benford_table = calculateBenford.calculate(data[0]) #Option 3
 
