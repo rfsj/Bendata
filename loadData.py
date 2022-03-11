@@ -1,9 +1,9 @@
 import pandas as pd
-from tkinter import *
-from tkinter.filedialog import askopenfilename
+#from tkinter import *
+#from tkinter.filedialog import askopenfilename
 #import pandas_datareader.data as web
 import datetime
-import tkinter as tk
+#import tkinter as tk
 import os
 import streamlit as st
 #import full database

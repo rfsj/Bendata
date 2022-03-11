@@ -7,8 +7,8 @@ from generateGraph import *
 
 
 #Import blib aux data
-from tkinter import *
-from tkinter.filedialog import askopenfilename
+#from tkinter import *
+#from tkinter.filedialog import askopenfilename
 import os
 
 #Import Interface
