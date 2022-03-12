@@ -32,24 +32,11 @@ try:
     csv_file_path = st.sidebar.file_uploader("Upload file", type='csv')
     if csv_file_path is None:
         st.stop()
-    raise ValueError('Represents a hidden bug, do not catch this')
-    raise Exception('This is the exception you expect to handle')
+        raise ValueError('Represents a hidden bug, do not catch this')
+        raise Exception('This is the exception you expect to handle')
 except Exception as error:
     print('Caught this error: ' + repr(error))
     
-#try: 
-    #os.makedirs(filename)
-#except OSError:
-    #if os.path.isdir(filename):
-        #st.write('Cannot access this entry')
-        #st.write("Try to change file in -- 'Select a file'")
-        #st.stop()
-    #elif not pd.errors.ParserError:
-     #   st.write('Caaa')
-#except Exception as e:    
- #       errortype = e.message.split('.')[0].strip()                                
-  #      if errortype == 'Error tokenizing data. C error': 
-  #          st.stop()
 
 ############################ streamlit part 2 ###################################
 
@@ -110,13 +97,11 @@ bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequen
 bar.update_yaxes(title_text="Frequency Percent")
 bar.update_xaxes(title_text="Number")
 
-
-#bar chart
 #bar_f = px.bar(benford_table, x="n", y=["data_frequency_percent", "difference_frequency_percent"], barmode='group', height=500, width = 1000, title="Data Frequency Percent VS Benford Frequency Percent")
 #bar_f.update_yaxes(title_text="Frequency Percent")
 #bar_f.update_xaxes(title_text="Number")
 
-######## line ########
+######## line chart ########
 
 lin = px.line(data_graph, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000)
 
@@ -124,8 +109,9 @@ lin = px.line(data_graph, x="n", y=["data_frequency_percent", "benford_frequency
 
 pie1 = fig = px.pie(data_graph, values='data_frequency_percent')
 pie2 = fig = px.pie(data_graph, values='benford_frequency_percent')
+
 #st.plotly_chart(fig)
-# st.dataframe(df) # if need to display dataframe
+#st.dataframe(df) # if need to display dataframe
 #fig = px.bar(trace1, x='number', y='data_frequency_percent')
 
 try:
@@ -152,4 +138,6 @@ def main():
     
     print("| Benford's Law |")
     print(lin) 
+    
 main()
+
