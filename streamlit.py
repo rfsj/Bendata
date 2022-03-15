@@ -1,20 +1,22 @@
-#Import Benford
-import random
+###Import Benford
+#import random
 from functionBenford import *
 from calculateBenford import *
 from loadData import *
 from generateGraph import *
 
-#Import blib aux data
+###Import blib aux data
 #from tkinter import *
 #from tkinter.filedialog import askopenfilename
-import os
+#import os
 
-#Import Interface
+###Import Interface
 import streamlit as st
 import plotly.graph_objs as go
 import plotly.offline as py
 import plotly.express as px
+
+###Statistics
 
 
 ############################### streamlit part 1 ###############################
@@ -124,7 +126,12 @@ except Exception as e:
         
 
 ######################### Statistics ######################################
+
 #scipy.stats.zscore(a, axis=0, ddof=0, nan_policy='propagate')
+#scipy.stats.chisquare(f_obs, f_exp=None, ddof=0, axis=0)
+#scipy.stats.median_abs_deviation(x, axis=0, center=<function median>, scale=1.0, nan_policy='propagate')
+
+
 
 
 
