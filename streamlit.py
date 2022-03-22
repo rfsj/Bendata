@@ -25,6 +25,7 @@ st.set_page_config(page_title="Newcomb-Benford Law", page_icon="📊", layout="c
 lateral_bar = st.sidebar.empty()
 st.sidebar.subheader('Upload the results of your experiment to see the importance of using the Newcomb-Benford Law')
 st.title('''📊 Newcomb-Benford's Law''')
+st.markdown("""---""")
 #st.header('')
 #st.subheader('text')
 
@@ -33,7 +34,7 @@ st.title('''📊 Newcomb-Benford's Law''')
 
 #filename = file_selector()
 try:
-    csv_file_path = st.sidebar.file_uploader("Upload file", type='csv')
+    csv_file_path = st.sidebar.file_uploader("📂Upload file", type='csv')
     if csv_file_path is None:
         st.stop()
         raise ValueError('Represents a hidden bug, do not catch this')
@@ -126,17 +127,37 @@ try:
     #data_frequency = st.write(data_graph.iloc[:, [0,1,2]], height=500, width = 1000)
 except Exception as e:
      st.stop(e) 
+
+st.markdown("""---""")
+
 expander = st.expander("See all benford data")  
 with expander :
-    st.markdown('***Sample percentage***')
+    st.markdown("""
+    ***📑Sample percentage***
+    - Data frequency
+    - Data frequency percent
+    ---
+    """)
     data_frequency = st.write(data_graph.iloc[:, [0,1,2]])
-    st.markdown('***Newcomb-Benford percentage***')
+    st.markdown("""
+    ---
+    ***📑Newcomb-Benford percentage***
+    - Benford frequency
+    - Benford frequency percent
+    ---
+    """)
     data_frequency = st.write(data_graph.iloc[:, [0,3,4]])
-    st.markdown('***Difference between sample***')
+    st.markdown( """
+    ---
+    ***📑Difference between sample***
+    - benford frequency
+    - benford frequency percent
+    ---
+    """)
     data_frequency = st.write(data_graph.iloc[:, [0,5,6]])    
 
-
 ######################### Statistics ######################################
+
 
 #scipy.stats.zscore(a, axis=0, ddof=0, nan_policy='propagate')
 #scipy.stats.chisquare(f_obs, f_exp=None, ddof=0, axis=0)
