@@ -20,10 +20,12 @@ import plotly.express as px
 
 
 ############################### streamlit part 1 ###############################
+st.set_page_config(page_title="Newcomb-Benford Law", page_icon="📊", layout="centered")
 
 lateral_bar = st.sidebar.empty()
-st.title('''Benford Law's''')
-#st.header('text')
+st.sidebar.subheader('Upload the results of your experiment to see the importance of using the Newcomb-Benford Law')
+st.title('''📊 Newcomb-Benford's Law''')
+#st.header('')
 #st.subheader('text')
 
 
@@ -60,7 +62,7 @@ data = data_and_column[0]
 ########################### Streamlit ####################################
 
 #streamlit() select column
-keyscolumn_select = st.sidebar.selectbox("Selecione a coluna:", keyscolumn)
+keyscolumn_select = st.sidebar.selectbox("Select column:", keyscolumn)
 
 ############################ Data Processing ###################################
 
@@ -95,7 +97,7 @@ graph_pie = st.empty()
 data_graph = pd.DataFrame(benford_table)
 
 ######## bar chart ########
-bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title="Data Frequency Percent VS Benford Frequency Percent")
+bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title="This graph shows the difference between the percentage of the sample and the percentage compared")
 bar.update_yaxes(title_text="Frequency Percent")
 bar.update_xaxes(title_text="Number")
 
@@ -106,11 +108,13 @@ bar.update_xaxes(title_text="Number")
 ######## line chart ########
 
 lin = px.line(data_graph, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000)
+lin.update_yaxes(title_text="Frequency Percent")
+lin.update_xaxes(title_text="Number")
 
 ######## pie chart ########
 
-pie1 = fig = px.pie(data_graph, values='data_frequency_percent')
-pie2 = fig = px.pie(data_graph, values='benford_frequency_percent')
+#pie1 = fig = px.pie(data_graph, values='data_frequency_percent')
+#pie2 = fig = px.pie(data_graph, values='benford_frequency_percent')
 
 #st.plotly_chart(fig)
 #st.dataframe(df) # if need to display dataframe
@@ -119,11 +123,18 @@ pie2 = fig = px.pie(data_graph, values='benford_frequency_percent')
 try:
     graph_bar_chart = st.plotly_chart(bar)
     graph_bar_chart = st.plotly_chart(lin)
-    graph_pie = st.plotly_chart(pie1)
-    graph_pie = st.plotly_chart(pie2)
+    #data_frequency = st.write(data_graph.iloc[:, [0,1,2]], height=500, width = 1000)
 except Exception as e:
      st.stop(e) 
-        
+expander = st.expander("See all benford data")  
+with expander :
+    st.markdown('***Sample percentage***')
+    data_frequency = st.write(data_graph.iloc[:, [0,1,2]])
+    st.markdown('***Newcomb-Benford percentage***')
+    data_frequency = st.write(data_graph.iloc[:, [0,3,4]])
+    st.markdown('***Difference between sample***')
+    data_frequency = st.write(data_graph.iloc[:, [0,5,6]])    
+
 
 ######################### Statistics ######################################
 

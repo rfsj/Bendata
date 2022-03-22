@@ -31,3 +31,9 @@
     #graph_bar_benford(number, benford_frequency_percent)
 
 #main()
+
+col1,col2 = st.columns(2)
+with col1 :
+    graph_bar_chart = st.plotly_chart(bar)
+with col2 :
+    graph_bar_chart = st.plotly_chart(lin)
