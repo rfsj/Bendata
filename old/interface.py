@@ -37,3 +37,42 @@ with col1 :
     graph_bar_chart = st.plotly_chart(bar)
 with col2 :
     graph_bar_chart = st.plotly_chart(lin)
+
+############################ load data via os part 2 ###################################
+
+
+ #Option 1 --> sep = ";", encoding='latin-1', on_bad_lines='skip'
+#data_and_column = loadData.import_data_find_column_os(filename) #Option 2 
+#benford_table = calculateBenford.calculate(data[0]) #Option 3
+    
+class loadData:
+    def __init__(self):
+        self.sep = ','
+        self.df = None
+        self.col = []
+        self.keyscolumn_select = None
+        self.data_list = None
+
+    def check_separator(self):
+            sep_dict = {'comma': ',', 'semicolon': ';', 'space': ' ','tab':'\t'}
+            sep = st.selectbox('Select the separator used in the file', list(sep_dict.keys()))
+            if sep:
+                self.separator = sep_dict[sep]
+
+    def file_selector(folder_path='.'):
+        filenames = os.listdir(folder_path)
+        selected_filename = st.sidebar.selectbox('Select a file', filenames)
+        return os.path.join(folder_path, selected_filename)
+
+    def streamlit_upload(csv_file_path, self):
+        self.df = pd.read_csv(csv_file_path, sep = self.separator, encoding='latin-1', on_bad_lines='skip') #sep usando quando a separação é em ;
+        column = self.df.keys()
+        for n in column:
+            self.col.append(n)
+        self.keyscolumn_select = st.sidebar.selectbox("Select column:", self.col) #select column
+        
+
+    #turn into list separade
+    def tolist(keyscolumn_select,self):
+        self.data_list = self.df[self.keyscolumn_select].astype(str).tolist() 
+        
