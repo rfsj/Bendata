@@ -42,7 +42,6 @@ except Exception as error:
     print('Caught this error: ' + repr(error))
     
 ############################ data clean ###################################
-
 data_clean = data.info()
 
 
