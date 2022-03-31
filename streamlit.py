@@ -4,6 +4,7 @@ from functionBenford import *
 from calculateBenford import *
 from loadData import *
 from generateGraph import *
+from clean import *
 
 ###Import blib aux data
 #from tkinter import *
@@ -42,8 +43,8 @@ except Exception as error:
     print('Caught this error: ' + repr(error))
     
 ############################ data clean ###################################
-data_clean = data.info()
-
+data_clean = data.copy()
+#data_clean = to_numeric(data_clean, keyscolumn_select)
 
 ############################ Use Benford ###################################
 
@@ -133,7 +134,7 @@ def main():
     
     print("| Benford's Law |")
     print(lin) 
-    print(data_clean)
+    print(data_clean.info())
     
 main()
 
