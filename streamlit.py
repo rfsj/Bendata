@@ -43,15 +43,29 @@ except Exception as error:
     print('Caught this error: ' + repr(error))
     
 ############################ data clean ###################################
-data_clean = data.copy()
-#data_clean = to_numeric(data_clean, keyscolumn_select)
 
+
+data_remove_negative_from_each_cell = data.copy()
+data_remove_lines_with_negatives = data.copy()
+data_separate_negative_lines_for_analysis = data.copy()
+data_remove_negative_from_each_cell = remove_negative_from_each_cell(data_remove_negative_from_each_cell, keyscolumn_select)
+data_remove_lines_with_negatives = remove_lines_with_negatives(data_remove_lines_with_negatives, keyscolumn_select)
+data_separate_negative_lines_for_analysis = separate_negative_lines_for_analysis(data_separate_negative_lines_for_analysis, keyscolumn_select)
+
+### fazer uma opção expander com 3 tem uso
 ############################ Use Benford ###################################
+def benford_create_table(data, keyscolumn_select):
+    #specific_column = data[keyscolumn_select] #get columns
+    specific_column_transform_to_list = tolist(data, keyscolumn_select) #transform column
+    benford_table = calculate(specific_column_transform_to_list)
+    return benford_table
 
-specific_column = data[keyscolumn_select] #get columns
-specific_column_transform_to_list = tolist(data, keyscolumn_select) #transform column
-benford_table = calculate(specific_column_transform_to_list)
+###part1
 
+benford_table = benford_create_table(data, keyscolumn_select)
+benford_table_remove_negative_from_each_cell = benford_create_table(data_remove_negative_from_each_cell, keyscolumn_select)
+#benford_table_remove_lines_with_negatives = benford_create_table(data_remove_lines_with_negatives, keyscolumn_select)
+ ###
 
 ############################ Data Processing Aux Function ###################################
 
@@ -66,12 +80,13 @@ difference_frequency_percent = data_freq_difference_perc(benford_table)
 
 ######################### Graphics ######################################
 
-#chart_bar = graph_bar_join(number, data_frequency_percent)
+data_graph = pd.DataFrame(benford_table)
 graph_bar_chart = st.empty()
 graph_pie = st.empty()
-data_graph = pd.DataFrame(benford_table)
+
 
 ######## bar chart ########
+
 bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title="This graph shows the difference between the percentage of the sample and the percentage compared")
 bar.update_yaxes(title_text="Frequency Percent")
 bar.update_xaxes(title_text="Number")
@@ -133,8 +148,10 @@ with expander :
 def main():
     
     print("| Benford's Law |")
-    print(lin) 
-    print(data_clean.info())
+    
+    print(data_remove_lines_with_negatives)
+ 
+    
     
 main()
 
