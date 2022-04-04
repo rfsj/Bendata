@@ -4,6 +4,7 @@ from functionBenford import *
 from calculateBenford import *
 from loadData import *
 from generateGraph import *
+from clean import *
 
 ###Import blib aux data
 #from tkinter import *
@@ -16,7 +17,7 @@ import plotly.graph_objs as go
 import plotly.offline as py
 import plotly.express as px
 
-############################### streamlit header ###############################
+# streamlit header 
 
 st.set_page_config(page_title="Newcomb-Benford Law", page_icon="📊", layout="centered")
 lateral_bar = st.sidebar.empty()
@@ -24,7 +25,7 @@ st.sidebar.subheader('Upload the results of your experiment to see the importanc
 st.title('''📊 Newcomb-Benford's Law''')
 st.markdown("""---""")
 
-############################### load data via os ###############################
+# load data via os 
 
 try:
     csv_file_path = st.sidebar.file_uploader("📂Upload file", type='csv')
@@ -37,19 +38,42 @@ try:
         keyscolumn = data_and_column[1] #save columns
         data = data_and_column[0] #save data
         keyscolumn_select = st.sidebar.selectbox("Select column:", keyscolumn) #select column
-        
+         
 except Exception as error:
     print('Caught this error: ' + repr(error))
     
-############################ data clean ###################################
-data_clean = data.info()
+# data clean
 
+option_negative_protocol = st.sidebar.expander("Negative Protocol")
+with option_negative_protocol:
+    radio_option_negative_protocol = st.sidebar.radio("What will be the negative protocol?", ('remove lines with negatives', 'remove negative from each cell', 'separate negative lines for analysis', 'no conditions'))
+    
 
-############################ Use Benford ###################################
+# negative protocol
 
-specific_column = data[keyscolumn_select] #get columns
-specific_column_transform_to_list = tolist(data, keyscolumn_select) #transform column
-benford_table = calculate(specific_column_transform_to_list)
+if radio_option_negative_protocol == "remove lines with negatives":
+    if data[keyscolumn_select].dtypes == float64:
+        data_remove = data.loc[data[keyscolumn_select] < 0]
+        data = data.drop(data_remove.index)
+        print(data)
+elif radio_option_negative_protocol == "remove negative from each cell":
+    data[keyscolumn_select] = data[keyscolumn_select].apply(lambda x: str(x).replace("-","")) #Quando precisar de um valor absoluto (Ex: resposta veio negativa mas o valor precisa ser positivo), usar o método abs(n).
+    print(data)
+elif radio_option_negative_protocol == "separate negative lines for analysis": 
+    if data[keyscolumn_select].dtypes == float64:
+        data_remove = data.loc[data[keyscolumn_select] > 0] #
+        data = data.drop(data_remove.index)
+        data[keyscolumn_select] = data[keyscolumn_select].apply(lambda x: str(x).replace("-",""))
+        print(data)
+        
+
+# Use Benford 
+def benford_create_table(data, keyscolumn_select):
+    specific_column_transform_to_list = tolist(data, keyscolumn_select) #transform column
+    benford_table = calculate(specific_column_transform_to_list)
+    return benford_table
+
+benford_table = benford_create_table(data, keyscolumn_select)
 
 
 ############################ Data Processing Aux Function ###################################
@@ -65,12 +89,13 @@ difference_frequency_percent = data_freq_difference_perc(benford_table)
 
 ######################### Graphics ######################################
 
-#chart_bar = graph_bar_join(number, data_frequency_percent)
+data_graph = pd.DataFrame(benford_table)
 graph_bar_chart = st.empty()
 graph_pie = st.empty()
-data_graph = pd.DataFrame(benford_table)
+
 
 ######## bar chart ########
+
 bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title="This graph shows the difference between the percentage of the sample and the percentage compared")
 bar.update_yaxes(title_text="Frequency Percent")
 bar.update_xaxes(title_text="Number")
@@ -132,8 +157,10 @@ with expander :
 def main():
     
     print("| Benford's Law |")
-    print(lin) 
-    print(data_clean)
+    
+    #print(clean)
+ 
+    
     
 main()
 
