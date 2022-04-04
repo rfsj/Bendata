@@ -17,7 +17,7 @@ import plotly.graph_objs as go
 import plotly.offline as py
 import plotly.express as px
 
-############################### streamlit header ###############################
+# streamlit header 
 
 st.set_page_config(page_title="Newcomb-Benford Law", page_icon="📊", layout="centered")
 lateral_bar = st.sidebar.empty()
@@ -25,7 +25,7 @@ st.sidebar.subheader('Upload the results of your experiment to see the importanc
 st.title('''📊 Newcomb-Benford's Law''')
 st.markdown("""---""")
 
-############################### load data via os ###############################
+# load data via os 
 
 try:
     csv_file_path = st.sidebar.file_uploader("📂Upload file", type='csv')
@@ -38,34 +38,43 @@ try:
         keyscolumn = data_and_column[1] #save columns
         data = data_and_column[0] #save data
         keyscolumn_select = st.sidebar.selectbox("Select column:", keyscolumn) #select column
-        
+         
 except Exception as error:
     print('Caught this error: ' + repr(error))
     
-############################ data clean ###################################
+# data clean
 
+option_negative_protocol = st.sidebar.expander("Negative Protocol")
+with option_negative_protocol:
+    radio_option_negative_protocol = st.sidebar.radio("What will be the negative protocol?", ('remove lines with negatives', 'remove negative from each cell', 'separate negative lines for analysis', 'no conditions'))
+    
 
-data_remove_negative_from_each_cell = data.copy()
-data_remove_lines_with_negatives = data.copy()
-data_separate_negative_lines_for_analysis = data.copy()
-data_remove_negative_from_each_cell = remove_negative_from_each_cell(data_remove_negative_from_each_cell, keyscolumn_select)
-data_remove_lines_with_negatives = remove_lines_with_negatives(data_remove_lines_with_negatives, keyscolumn_select)
-data_separate_negative_lines_for_analysis = separate_negative_lines_for_analysis(data_separate_negative_lines_for_analysis, keyscolumn_select)
+# negative protocol
 
-### fazer uma opção expander com 3 tem uso
-############################ Use Benford ###################################
+if radio_option_negative_protocol == "remove lines with negatives":
+    if data[keyscolumn_select].dtypes == float64:
+        data_remove = data.loc[data[keyscolumn_select] < 0]
+        data = data.drop(data_remove.index)
+        print(data)
+elif radio_option_negative_protocol == "remove negative from each cell":
+    data[keyscolumn_select] = data[keyscolumn_select].apply(lambda x: str(x).replace("-","")) #Quando precisar de um valor absoluto (Ex: resposta veio negativa mas o valor precisa ser positivo), usar o método abs(n).
+    print(data)
+elif radio_option_negative_protocol == "separate negative lines for analysis": 
+    if data[keyscolumn_select].dtypes == float64:
+        data_remove = data.loc[data[keyscolumn_select] > 0] #
+        data = data.drop(data_remove.index)
+        data[keyscolumn_select] = data[keyscolumn_select].apply(lambda x: str(x).replace("-",""))
+        print(data)
+        
+
+# Use Benford 
 def benford_create_table(data, keyscolumn_select):
-    #specific_column = data[keyscolumn_select] #get columns
     specific_column_transform_to_list = tolist(data, keyscolumn_select) #transform column
     benford_table = calculate(specific_column_transform_to_list)
     return benford_table
 
-###part1
-
 benford_table = benford_create_table(data, keyscolumn_select)
-benford_table_remove_negative_from_each_cell = benford_create_table(data_remove_negative_from_each_cell, keyscolumn_select)
-#benford_table_remove_lines_with_negatives = benford_create_table(data_remove_lines_with_negatives, keyscolumn_select)
- ###
+
 
 ############################ Data Processing Aux Function ###################################
 
@@ -149,7 +158,7 @@ def main():
     
     print("| Benford's Law |")
     
-    print(data_remove_lines_with_negatives)
+    #print(clean)
  
     
     
