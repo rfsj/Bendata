@@ -1,17 +1,16 @@
-###Import Benford
-#import random
+
+
 from functionBenford import *
 from calculateBenford import *
 from loadData import *
 from generateGraph import *
 from clean import *
 
-###Import blib aux data
 #from tkinter import *
 #from tkinter.filedialog import askopenfilename
 #import os
+#import random
 
-###Import Interface
 import streamlit as st
 import plotly.graph_objs as go
 import plotly.offline as py
@@ -55,18 +54,17 @@ if radio_option_negative_protocol == "remove lines with negatives":
     if data[keyscolumn_select].dtypes == float64:
         data_remove = data.loc[data[keyscolumn_select] < 0]
         data = data.drop(data_remove.index)
-        print(data)
+        
 elif radio_option_negative_protocol == "remove negative from each cell":
     data[keyscolumn_select] = data[keyscolumn_select].apply(lambda x: str(x).replace("-","")) #Quando precisar de um valor absoluto (Ex: resposta veio negativa mas o valor precisa ser positivo), usar o método abs(n).
-    print(data)
+    
 elif radio_option_negative_protocol == "separate negative lines for analysis": 
     if data[keyscolumn_select].dtypes == float64:
         data_remove = data.loc[data[keyscolumn_select] > 0] #
         data = data.drop(data_remove.index)
         data[keyscolumn_select] = data[keyscolumn_select].apply(lambda x: str(x).replace("-",""))
-        print(data)
         
-
+        
 # Use Benford 
 def benford_create_table(data, keyscolumn_select):
     specific_column_transform_to_list = tolist(data, keyscolumn_select) #transform column
@@ -76,7 +74,7 @@ def benford_create_table(data, keyscolumn_select):
 benford_table = benford_create_table(data, keyscolumn_select)
 
 
-############################ Data Processing Aux Function ###################################
+# Data Processing Aux Function 
 
 
 number = data_number(benford_table)
@@ -87,20 +85,20 @@ benford_frequency_percent = benford_freq_perc(benford_table)
 difference_frequency = data_freq_difference(benford_table)
 difference_frequency_percent = data_freq_difference_perc(benford_table)
 
-######################### Graphics ######################################
+# Graphics 
 
 data_graph = pd.DataFrame(benford_table)
 graph_bar_chart = st.empty()
 graph_pie = st.empty()
 
 
-######## bar chart ########
+# bar chart #
 
 bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title="This graph shows the difference between the percentage of the sample and the percentage compared")
 bar.update_yaxes(title_text="Frequency Percent")
 bar.update_xaxes(title_text="Number")
 
-######## line chart ########
+# line chart #
 
 lin = px.line(data_graph, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000)
 lin.update_yaxes(title_text="Frequency Percent")
@@ -113,7 +111,7 @@ except Exception as e:
      st.stop(e) 
 
 
-########################See all#############################
+# See all
 
 st.markdown("""---""")
 
@@ -146,13 +144,11 @@ with expander :
 
 ######################### Statistics ######################################
 
-
 #scipy.stats.zscore(a, axis=0, ddof=0, nan_policy='propagate')
 #scipy.stats.chisquare(f_obs, f_exp=None, ddof=0, axis=0)
 #scipy.stats.median_abs_deviation(x, axis=0, center=<function median>, scale=1.0, nan_policy='propagate')
 
-######################### Main ######################################
-
+# Main
 
 def main():
     
