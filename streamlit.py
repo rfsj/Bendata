@@ -118,11 +118,16 @@ data_frequency = data_freq(benford_table) #aux function
 data_frequency_percent = data_freq_perc(benford_table) #aux function
 benford_frequency =  benford_freq(benford_table) #aux function
 benford_frequency_percent = benford_freq_perc(benford_table) #aux function
-
-z = zscore(length, data_frequency_percent, benford_frequency_percent)
+#zscore
+z = pd.DataFrame(zscore(length, data_frequency_percent, benford_frequency_percent))
+#chisquare
 chi = chi_square(data_frequency, benford_frequency)
+pd_chi = pd.DataFrame(chi[0])
+sum_chi = chi[1]
+#mad
 m_a_d = mad(data_frequency_percent, benford_frequency_percent)
-#print(testM(length, data_frequency_percent, benford_frequency_percent))
+
+
 # See all
 
 st.markdown("""---""")
@@ -162,9 +167,25 @@ with expander :
     ---
     ***📑Statistical Test***
     - Zscore
-    
-
     """)
+    zwrite = st.write(z.iloc[:, [0,1]])
+
+    st.markdown( """
+    ---
+    - Chi Square Test
+    """)
+    chiwrite = st.write(pd_chi.iloc[:, [0,1]])
+
+    st.markdown( """
+    Sum 
+    """)
+    chisumwrite = st.write(sum_chi)
+
+    st.markdown( """
+    ---
+    - Mean absolute deviation
+    """)
+    madwrite = st.write(m_a_d)
 
 # Main
 @st.cache
