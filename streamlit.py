@@ -5,7 +5,7 @@ from generateGraph import *
 from clean import *
 from stats import *
 
-
+from statsmodels.stats.weightstats import ztest as ztest
 import streamlit as st
 import plotly.graph_objs as go
 import plotly.offline as py
@@ -77,17 +77,20 @@ benford_table = calculate(specific_column_transform_to_list)
 
 # Data Processing Aux Function
 
-number = data_number(benford_table)
-data_frequency = data_freq(benford_table)
-data_frequency_percent = data_freq_perc(benford_table)
-benford_frequency = benford_freq(benford_table)
-benford_frequency_percent = benford_freq_perc(benford_table)
-difference_frequency = data_freq_difference(benford_table)
-difference_frequency_percent = data_freq_difference_perc(benford_table)
+#number = data_number(benford_table)
+#data_frequency = data_freq(benford_table)
+#data_frequency_percent = data_freq_perc(benford_table)
+#benford_frequency = benford_freq(benford_table)
+#benford_frequency_percent = benford_freq_perc(benford_table)
+#difference_frequency = data_freq_difference(benford_table)
+#difference_frequency_percent = data_freq_difference_perc(benford_table)
 
+
+
+data_calculate = pd.DataFrame(benford_table)
+length = len(data[keyscolumn_select])
 # Graphics
 
-data_graph = pd.DataFrame(benford_table)
 graph_bar_chart = st.empty()
 graph_pie = st.empty()
 
@@ -99,7 +102,7 @@ bar.update_xaxes(title_text="Number")
 
 # line chart #
 
-lin = px.line(data_graph, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000)
+lin = px.line(data_calculate, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000)
 lin.update_yaxes(title_text="Frequency Percent")
 lin.update_xaxes(title_text="Number")
 
@@ -109,7 +112,17 @@ try:
 except Exception as e:
      st.stop(e)
 
+# Statistics
 
+data_frequency = data_freq(benford_table) #aux function
+data_frequency_percent = data_freq_perc(benford_table) #aux function
+benford_frequency =  benford_freq(benford_table) #aux function
+benford_frequency_percent = benford_freq_perc(benford_table) #aux function
+
+z = zscore(length, data_frequency_percent, benford_frequency_percent)
+chi = chi_square(data_frequency, benford_frequency)
+m_a_d = mad(data_frequency_percent, benford_frequency_percent)
+#print(testM(length, data_frequency_percent, benford_frequency_percent))
 # See all
 
 st.markdown("""---""")
@@ -119,7 +132,7 @@ expander = st.expander("See all benford data")
 with expander :
     st.markdown("""***📑Details***""")
     data_len = st.write('- Name Column:', keyscolumn_select)
-    data_len = st.write('- Length:', len(data[keyscolumn_select]))
+    data_len = st.write('- Length:', length)
     data_len = st.write('- Type:', data[keyscolumn_select].dtypes)
     st.markdown("""
     ***📑Sample percentage***
@@ -127,7 +140,7 @@ with expander :
     - Data frequency percent
     ---
     """)
-    data_frequency = st.write(data_graph.iloc[:, [0,1,2]])
+    data_frequency = st.write(data_calculate.iloc[:, [0,1,2]])
     st.markdown("""
     ---
     ***📑Newcomb-Benford percentage***
@@ -135,7 +148,7 @@ with expander :
     - Benford frequency percent
     ---
     """)
-    benford_frequency = st.write(data_graph.iloc[:, [0,3,4]])
+    benford_frequency = st.write(data_calculate.iloc[:, [0,3,4]])
     st.markdown( """
     ---
     ***📑Difference between sample***
@@ -143,19 +156,28 @@ with expander :
     - benford frequency percent
     ---
     """)
-    difference_frequency = st.write(data_graph.iloc[:, [0,5,6]])
+    difference_frequency = st.write(data_calculate.iloc[:, [0,5,6]])
 
-######################### Statistics ######################################
-#zscore = z_score(data,keyscolumn_select)
-#chisquare = chi_square(data_graph)
-#mad = absolute_mean_deviation(specific_column_transform_to_list)
+    st.markdown( """
+    ---
+    ***📑Statistical Test***
+    - Zscore
+    
 
-#c=scipy.stats.median_abs_deviation(data[keyscolumn_select], axis=0, center=function median, scale=1.0, nan_policy='propagate')
+    """)
 
 # Main
 @st.cache
 def main():
     print("| Benford's Law |")
-    #print(zscore)
-    #print(chisquare)
+    print(z)
+    print(chi)
+    print(m_a_d)
 main()
+
+#zscore = z_score(data,keyscolumn_select)
+#chisquare = chi_square(data_calculate)
+#mad = absolute_mean_deviation(specific_column_transform_to_list)
+
+#c=scipy.stats.median_abs_deviation(data[keyscolumn_select], axis=0, center=function median, scale=1.0, nan_policy='propagate')
+#z = ztest(data[keyscolumn_select], value=77548)

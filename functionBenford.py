@@ -1,4 +1,6 @@
 #aux functions
+
+
 def data_freq(benford_table):
     data = []
     for n in benford_table:

@@ -1,58 +1,64 @@
 #import scipy.stats as stats
 import pandas as pd
+import scipy
 import scipy.stats as stats
 from numpy import mean, absolute
-def chi_square(data_graph):
-    #https://towardsdatascience.com/chi-square-test-with-python-d8ba98117626
-    data_stat = data_graph.iloc[:, [0,1,3]]
-    print(data_stat)
-    df = pd.DataFrame(data_stat, columns = ['n', 'data_frequency', 'benford_frequency']) 
-    df['expected_freq'] = df['benford_frequency'].sum() * df['data_frequency']
-    print(df)
-    # significance level
-    alpha = 0.05
+import math
+import numpy
+import scipy
+import scipy.stats as stats
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
-    # Calcualtion of Chisquare
+
+def zscore(length, data_frequency_percent, benford_frequency_percent): #Percent
+    results = []
+    for n in range(0, 9):
+        if (abs(data_frequency_percent[n] - benford_frequency_percent[n])) > (1 / (2 * length)):
+           zscore = (abs(data_frequency_percent[n] - benford_frequency_percent[n]) - (1 / (2 * length))) / (math.sqrt(benford_frequency_percent[n] * ((1-benford_frequency_percent[n]) / length)))
+        else:
+           zscore = (abs(data_frequency_percent[n] - benford_frequency_percent[n])) / (math.sqrt(benford_frequency_percent[n] * ((1 - benford_frequency_percent[n]) / length)))
+        results.append({"n": n+1,
+                        "zscore": zscore})
+    print(results)
+    return results
+    
+    #((|p-p0|)-(1/2n))/sqrt(p0(1-p0)/n)
+    return 
+def chi_square(data_frequency, benford_frequency):
+    results = []
     chi_square = 0
-    for i in range(len(df)):
-        O = df.loc[i, 'benford_frequency']
-        E = df.loc[i, 'expected_freq']
-        chi_square += (O-E)**2/E
+    chi_square_sum = 0
+    for n in range(0, 9):
+        O = data_frequency[n]
+        E = benford_frequency[n]
+        chi_square = (O-E)**2/E
+        chi_square_sum = chi_square_sum + chi_square
+        results.append({"n": n+1,
+                        "chi_square": chi_square}) 
+    return results, chi_square_sum
 
-    # The p-value approach
-    print("Approach 1: The p-value approach to hypothesis testing in the decision rule")
-    p_value = 1 - stats.chi2.cdf(chi_square, df['n'].nunique() - 1)
-    print(p_value)
-    conclusion = "Failed to reject the null hypothesis."
-    if p_value <= alpha:
-        conclusion = "Null Hypothesis is rejected."
-            
-    print("chisquare-score is:", chi_square, " and p value is:", p_value)
-    print(conclusion)
-        
-    # The critical value approach
-    print("\n--------------------------------------------------------------------------------------")
-    print("Approach 2: The critical value approach to hypothesis testing in the decision rule")
-    critical_value = stats.chi2.ppf(1-alpha, df['n'].nunique() - 1)
-    conclusion = "Failed to reject the null hypothesis."
-    if chi_square > critical_value:
-        conclusion = "Null Hypothesis is rejected."
-            
-    print("chisquare-score is:", chi_square, " and critical value is:", critical_value)
-    print(conclusion)
+def mad(data_frequency_percent, benford_frequency_percent):
+    K = 8 #for one digit
+    mad_sum = 0
+    for n in range(0, 9):
+        O = data_frequency_percent[n]
+        E = benford_frequency_percent[n]
+        mad = abs(O-E)/ K
+        mad_sum = mad_sum + mad
+    #|pi-p0i|/K
+    return mad_sum
 
-def z_score(data,keyscolumn_select):
-    #zscore = scipy.stats.zscore(data[keyscolumn_select], axis=0, ddof=0, nan_policy='propagate')
-    #or
-    zscore_mean = data[keyscolumn_select].mean()
-    zscore_str = data[keyscolumn_select].std()
-    zscore = (data[keyscolumn_select]-zscore_mean)/zscore_str
-    return zscore
-def absolute_mean_deviation(specific_column_transform_to_list):
-    # Importing mean, absolute from numpy
-    series = pd.Series(specific_column_transform_to_list)
-    #result = series.mad()
-    mean_series = series.mean()[0]
-    result = (series - mean_series).abs()
-    print(result)
-    return result
+def testM(length, data_frequency_percent, benford_frequency_percent): #quem sabe não kk
+    #m = sqrt(n) max i=1..9 {|p0 - log_10(1+1/i)|}
+    array = []
+    for n in range(0, 9):
+        O = data_frequency_percent[n]
+        E = benford_frequency_percent[n]
+        value = abs(O-E)
+        array.append(value)
+    max_m = max(array)
+    testM = math.sqrt(length) * max_m
+    return testM
+
