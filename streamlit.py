@@ -168,23 +168,55 @@ with expander :
     ***📑Statistical Test***
     * ##### Zscore
     """)
+
+    st.markdown( """
+        The Z-statistic is used to test whether the actual proportion for a specific
+    digit differs significantly (in the statistical sense) from the expectation of Benford’s
+    Law. The formula takes into account the absolute magnitude of the difference, the
+    number of records, and the expected proportion. We usually use a significance level
+    of 5 percent which has a critical value of 1.96(Negrini, 2012).
+    """)
+    st.markdown("""
+    | Comparative values:   |                |
+    |-----------------------|----------------|
+    | Accepted                | Below 1.96 |
+    | Rejected              | Above 1.96 |
+    &nbsp;
+        """)   
+    st.info("However, with the excess power problem, we know that as the data set becomes larger, the Z-statistic tolerates smaller and smaller deviations.")
     zwrite = st.write(z.iloc[:, [0,1]])
 ########################################################################
     st.markdown("""
     ---
     * ##### Chi Square Test
-    """, )
+    """)
+    st.markdown("""
+    The chi-square test is used to compare a set of actual results with the expected results. The expected result is that  data conforms to Benford’s Law. The null hypothesis is that the digits conform to Benford’s Law(Negrini, 2012).
+    """)    
+    st.markdown("""
+    | Comparative values:   |                |
+    |-----------------------|----------------|
+    | Accepted              | 0.000 to 15,51 |
+    | Rejected              | Above 15,51    |
+    &nbsp;
+        """)       
+    
+    st.info("The chi-square test unfortunately also suffers from the excess power problem in that when the number of records becomes large, the calculated chi-square will almost always be higher than the critical value, leading us to conclude that the data does not conform to Benford’s Law. This problem starts being noticeable for data sets with more than 5,000 records(Negrini, 2012). ")
+    
     chiwrite = st.write(pd_chi.iloc[:, [0,1]])
-
     help = st.write("Total:")
     chisumwrite = st.write(sum_chi)
-    if length > 5000:
-        st.warning("The chi-square test unfortunately also suffers from the excess power problem in that when the number of records becomes large, the calculated chi-square will almost always be higher than the critical value, leading us to conclude that the data does not conform to Benford’s Law. This problem starts being noticeable for data sets with more than 5,000 records. ")
+    st.warning("This means that if the calculated chi-square value exceeds 15,51, the null hypothesis of conformity must be rejected and we would conclude that the data does not conform to Benford’s Law(Negrini, 2012). ")
 ########################################################################
     st.markdown( """
     ---
     * ##### Mean absolute deviation
     """)
+    st.markdown( """
+
+    This is a measure of conformity to Benford’s Law that takes into account the expected proportions and the actual proportions for each digit but ignores the number of records, N. This test is the preferred measure of conformity and it is based on the average absolute deviation of the actual proportions from the Benford proportions. A high MAD signals a low level of conformity to Benford. This book includes a table of MAD critical values based on a sample of real-world data sets(Negrini, 2012).
+    """)
+    
     st.markdown("""
 | Comparative values:   |                |
 |-----------------------|----------------|
@@ -206,3 +238,4 @@ def main():
     print(chi)
     print(m_a_d)
 main()
+

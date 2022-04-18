@@ -106,6 +106,9 @@ def get_benford_data():
         random_factor = random.uniform(0.8, 1.2)
         for num_count in range(1, int(1000 * BENFORD_PERCENTAGES[first_digit] * random_factor)):
             start = first_digit * 1000
-            benford_data.append(random.randint(start, start + 1000))
+            benford_data.append({"example": random.randint(start, start + 1000)})
+    return benford_data 
 
-    return benford_data
+#Script create base benford
+#df = pd.DataFrame(get_benford_data())
+#df.to_csv(r'C:\Users\Ricardo\Downloads\\benford.csv', index = False)

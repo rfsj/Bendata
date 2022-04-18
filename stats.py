@@ -50,7 +50,7 @@ def mad(data_frequency_percent, benford_frequency_percent):
     #|pi-p0i|/K
     return mad_sum
 
-def testM(length, data_frequency_percent, benford_frequency_percent): #quem sabe não kk
+def testM(length, data_frequency_percent, benford_frequency_percent): #new feature
     #m = sqrt(n) max i=1..9 {|p0 - log_10(1+1/i)|}
     array = []
     for n in range(0, 9):
