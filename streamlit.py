@@ -162,29 +162,40 @@ with expander :
     ---
     """)
     difference_frequency = st.write(data_calculate.iloc[:, [0,5,6]])
-
+########################################################################
     st.markdown( """
     ---
     ***📑Statistical Test***
-    - Zscore
+    * ##### Zscore
     """)
     zwrite = st.write(z.iloc[:, [0,1]])
-
-    st.markdown( """
+########################################################################
+    st.markdown("""
     ---
-    - Chi Square Test
-    """)
+    * ##### Chi Square Test
+    """, )
     chiwrite = st.write(pd_chi.iloc[:, [0,1]])
 
-    st.markdown( """
-    Sum 
-    """)
+    help = st.write("Total:")
     chisumwrite = st.write(sum_chi)
-
+    if length > 5000:
+        st.warning("The chi-square test unfortunately also suffers from the excess power problem in that when the number of records becomes large, the calculated chi-square will almost always be higher than the critical value, leading us to conclude that the data does not conform to Benford’s Law. This problem starts being noticeable for data sets with more than 5,000 records. ")
+########################################################################
     st.markdown( """
     ---
-    - Mean absolute deviation
+    * ##### Mean absolute deviation
     """)
+    st.markdown("""
+| Comparative values:   |                |
+|-----------------------|----------------|
+| Close                 | 0.000 to 0.006 |
+| Acceptable            | 0.006 to 0.012 |
+| Marginally Acceptable | 0.012 to 0.015 |
+| Nonconformity         | Above 0.015    |
+        """)
+    st.markdown( """
+    Total:
+    """)         
     madwrite = st.write(m_a_d)
 
 # Main
@@ -195,10 +206,3 @@ def main():
     print(chi)
     print(m_a_d)
 main()
-
-#zscore = z_score(data,keyscolumn_select)
-#chisquare = chi_square(data_calculate)
-#mad = absolute_mean_deviation(specific_column_transform_to_list)
-
-#c=scipy.stats.median_abs_deviation(data[keyscolumn_select], axis=0, center=function median, scale=1.0, nan_policy='propagate')
-#z = ztest(data[keyscolumn_select], value=77548)
