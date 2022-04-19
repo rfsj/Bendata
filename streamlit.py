@@ -11,6 +11,8 @@ import plotly.graph_objs as go
 import plotly.offline as py
 import plotly.express as px
 
+from fpdf import FPDF
+import base64
 import pdfkit
 import scipy
 import scipy.stats as stats
@@ -234,7 +236,7 @@ with expander :
 
 
 #Script
-data_calculate.to_csv(r'C:\Users\Ricardo\Downloads\\data_benford_{csv_file_path}3.csv', index = False, sep=';')
+#data_calculate.to_csv(r'C:\Users\Ricardo\Downloads\\data_benford_{csv_file_path}3.csv', index = False, sep=';')
 
 
 
@@ -247,10 +249,3 @@ def main():
     print(m_a_d)
 main()
 
-#Script Functions
-
-export_as_pdf = st.button("Export Report")
-
-if export_as_pdf:
-    
-    pdfkit.from_url("https://share.streamlit.io/rfsj/benford/main/streamlit.py", "benford.pdf", configuration=config) #It works
