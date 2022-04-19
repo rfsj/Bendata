@@ -1,3 +1,4 @@
+"""
 report_text = "benford"
 
 
@@ -17,3 +18,4 @@ if export_as_pdf:
 html = create_download_link(pdf.output(dest="S"), "test")
 
 st.markdown(html, unsafe_allow_html=True)
+"""

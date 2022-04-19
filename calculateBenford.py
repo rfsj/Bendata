@@ -111,4 +111,4 @@ def get_benford_data():
 
 #Script create base benford
 #df = pd.DataFrame(get_benford_data())
-#df.to_csv(r'C:\Users\Ricardo\Downloads\\benford.csv', index = False)
+#df.to_csv(r'C:\Users\Ricardo\Downloads\\benford5.csv', index = False)

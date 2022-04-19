@@ -11,6 +11,7 @@ import plotly.graph_objs as go
 import plotly.offline as py
 import plotly.express as px
 
+import pdfkit
 import scipy
 import scipy.stats as stats
 from scipy.stats import chi2_contingency
@@ -29,9 +30,9 @@ st.title('''📊 Newcomb-Benford's Law''')
 st.markdown("""---""")
 
 # load data via os
-
+csv_file_path = st.sidebar.file_uploader("📂Upload file", type='csv')
 try:
-    csv_file_path = st.sidebar.file_uploader("📂Upload file", type='csv')
+    
     if csv_file_path is None:
         st.stop()
         raise ValueError('Represents a hidden bug, do not catch this')
@@ -230,6 +231,13 @@ with expander :
     """)         
     madwrite = st.write(m_a_d)
 
+
+
+#Script
+data_calculate.to_csv(r'C:\Users\Ricardo\Downloads\\data_benford_{csv_file_path}3.csv', index = False, sep=';')
+
+
+
 # Main
 @st.cache
 def main():
@@ -239,3 +247,12 @@ def main():
     print(m_a_d)
 main()
 
+#Script Functions
+
+export_as_pdf = st.button("Export Report")
+
+if export_as_pdf:
+    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    #pdfkit.from_url("http://localhost:8501/", "benford.pdf", configuration=config) #Blank page
+    pdfkit.from_url("https://share.streamlit.io/rfsj/benford/main/streamlit.py", "benford.pdf", configuration=config) #It works
