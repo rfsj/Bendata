@@ -122,16 +122,19 @@ data_frequency = data_freq(benford_table) #aux function
 data_frequency_percent = data_freq_perc(benford_table) #aux function
 benford_frequency =  benford_freq(benford_table) #aux function
 benford_frequency_percent = benford_freq_perc(benford_table) #aux function
+
 #zscore
 z = pd.DataFrame(zscore(length, data_frequency_percent, benford_frequency_percent))
+
 #chisquare
 chi = chi_square(data_frequency, benford_frequency)
 pd_chi = pd.DataFrame(chi[0])
 sum_chi = chi[1]
+
 #mad
 m_a_d = mad(data_frequency_percent, benford_frequency_percent)
-
-
+pd_m_a_d = pd.DataFrame(m_a_d[0])
+sum_m_a_d = m_a_d[1]
 # See all
 
 st.markdown("""---""")
@@ -228,24 +231,29 @@ with expander :
 | Acceptable            | 0.006 to 0.012 |
 | Marginally Acceptable | 0.012 to 0.015 |
 | Nonconformity         | Above 0.015    |
-        """)
+&nbsp;   """)
+    st.info("The comparative values ​​for the sum according to the degree of freedom.")
+    madwrite = st.write(pd_m_a_d.iloc[:, [0,1]])
     st.markdown( """
     Total:
     """)         
-    madwrite = st.write(m_a_d)
+    madwrite_sum = st.write(sum_m_a_d)
 
 
 
-#Script
-
-#data_calculate.to_csv(r'C:\Users\Ricardo\Downloads\\data_benford_{csv_file_path}3.csv', index = False, sep=';')
-
+#Script sabe csv  
 
 #csv_bendata_zscore = pd.merge(data_calculate, z, how = 'inner', on = 'n')
+#csv_bendata_zscore_chi = pd.merge(csv_bendata_zscore, pd_chi, how = 'inner', on = 'n')
+#csv_all = pd.merge(csv_bendata_zscore_chi, pd_m_a_d, how = 'inner', on = 'n')
 #export_as_csv = st.button("Export Report")
 #if export_as_csv:
-#    csv_bendata_zscore.to_csv(r'data_benford.csv', index = False, sep=radio)
+#    csv_all.to_csv(r'C:\Users\Ricardo\Downloads\\Ano-2017-vlrLiquido-results.csv', index = False, sep=",")
 
+
+#Script create base benford
+#df = pd.DataFrame(get_benford_data())
+#df.to_csv(r'C:\Users\Ricardo\Downloads\\benford9.csv', index = False)
 
 # Main
 @st.cache

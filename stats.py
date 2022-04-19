@@ -40,15 +40,18 @@ def chi_square(data_frequency, benford_frequency):
     return results, chi_square_sum
 
 def mad(data_frequency_percent, benford_frequency_percent):
-    K = 8 #for one digit
+    results = []
+    K = 9 #for one digit
     mad_sum = 0
     for n in range(0, 9):
         O = data_frequency_percent[n]
         E = benford_frequency_percent[n]
         mad = abs(O-E)/ K
+        results.append({"n": n+1,
+                        "mad": mad}) 
         mad_sum = mad_sum + mad
     #|pi-p0i|/K
-    return mad_sum
+    return results, mad_sum
 
 def testM(length, data_frequency_percent, benford_frequency_percent): #new feature
     #m = sqrt(n) max i=1..9 {|p0 - log_10(1+1/i)|}

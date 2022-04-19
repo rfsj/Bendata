@@ -108,7 +108,3 @@ def get_benford_data():
             start = first_digit * 1000
             benford_data.append({"example": random.randint(start, start + 1000)})
     return benford_data 
-
-#Script create base benford
-#df = pd.DataFrame(get_benford_data())
-#df.to_csv(r'C:\Users\Ricardo\Downloads\\benford5.csv', index = False)
