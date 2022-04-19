@@ -252,7 +252,5 @@ main()
 export_as_pdf = st.button("Export Report")
 
 if export_as_pdf:
-    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    #pdfkit.from_url("http://localhost:8501/", "benford.pdf", configuration=config) #Blank page
+    
     pdfkit.from_url("https://share.streamlit.io/rfsj/benford/main/streamlit.py", "benford.pdf", configuration=config) #It works
