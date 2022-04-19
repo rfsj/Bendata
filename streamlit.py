@@ -40,7 +40,8 @@ try:
         raise ValueError('Represents a hidden bug, do not catch this')
     elif csv_file_path is not None:
         st.sidebar.write('You selected `%s`' % csv_file_path)
-        data_and_column = streamlit_upload(csv_file_path) # function
+        radio = st.sidebar.radio("What's your file separate?", (';', ','))
+        data_and_column = streamlit_upload(csv_file_path, radio) # function
         keyscolumn = data_and_column[1] #save columns
         data = data_and_column[0] #save data
         keyscolumn_select = st.sidebar.selectbox("Select column:", keyscolumn) #select column
@@ -236,8 +237,14 @@ with expander :
 
 
 #Script
+
 #data_calculate.to_csv(r'C:\Users\Ricardo\Downloads\\data_benford_{csv_file_path}3.csv', index = False, sep=';')
 
+
+#csv_bendata_zscore = pd.merge(data_calculate, z, how = 'inner', on = 'n')
+#export_as_csv = st.button("Export Report")
+#if export_as_csv:
+#    csv_bendata_zscore.to_csv(r'data_benford.csv', index = False, sep=radio)
 
 
 # Main
@@ -246,6 +253,9 @@ def main():
     print("| Benford's Law |")
     print(z)
     print(chi)
-    print(m_a_d)
+
 main()
+
+
+
 

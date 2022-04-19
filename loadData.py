@@ -16,8 +16,7 @@ def file_selector(folder_path='.'):
     selected_filename = st.sidebar.selectbox('Select a file', filenames)
     return os.path.join(folder_path, selected_filename)
 
-def streamlit_upload(csv_file_path):
-    radio = st.sidebar.radio("What's your file separate?", (';', ','))
+def streamlit_upload(csv_file_path, radio):
     df = pd.read_csv(csv_file_path, sep = radio, encoding='latin-1', on_bad_lines='skip') #sep usando quando a separação é em ;
     column = df.keys()
     col = []
