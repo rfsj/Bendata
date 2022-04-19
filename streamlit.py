@@ -11,9 +11,9 @@ import plotly.graph_objs as go
 import plotly.offline as py
 import plotly.express as px
 
-from fpdf import FPDF
-import base64
-import pdfkit
+#from fpdf import FPDF
+#import base64
+#import pdfkit
 import scipy
 import scipy.stats as stats
 from scipy.stats import chi2_contingency
