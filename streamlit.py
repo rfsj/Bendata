@@ -33,8 +33,8 @@ st.markdown("""---""")
 
 # load data via os
 csv_file_path = st.sidebar.file_uploader("📂Upload file", type='csv')
+
 try:
-    
     if csv_file_path is None:
         st.stop()
         raise ValueError('Represents a hidden bug, do not catch this')
@@ -45,20 +45,23 @@ try:
         keyscolumn = data_and_column[1] #save columns
         data = data_and_column[0] #save data
         keyscolumn_select = st.sidebar.selectbox("Select column:", keyscolumn) #select column
-
+        name_csv = csv_file_path.name.split(".")
 except Exception as error:
     print('Caught this error: ' + repr(error))
 
 # data clean
 
-#data.drop_duplicates(inplace = True)
-#data.dropna(subset = keyscolumn_select, inplace = True)
+data.drop_duplicates(inplace = True)
+
+if data[keyscolumn_select].dtypes == float64:
+        data_remove = data.loc[data[keyscolumn_select] == 0]
+        data = data.drop(data_remove.index)
 
 # negative protocol
 
 option_negative_protocol = st.sidebar.expander("Negative Protocol")
 with option_negative_protocol:
-    radio_option_negative_protocol = st.sidebar.radio("What will be the negative protocol?", ('remove lines with negatives', 'remove negative from each cell', 'separate negative lines for analysis', 'no conditions'))
+    radio_option_negative_protocol = st.sidebar.radio("What will be the negative protocol?", ( 'remove negative from each cell', 'remove lines with negatives', 'separate negative lines for analysis', 'no conditions'))
 
 if radio_option_negative_protocol == "remove lines with negatives":
     if data[keyscolumn_select].dtypes == float64:
@@ -93,6 +96,8 @@ benford_table = calculate(specific_column_transform_to_list)
 
 data_calculate = pd.DataFrame(benford_table)
 length = len(data[keyscolumn_select])
+
+st.markdown("""This graph shows the difference between the percentage of the sample and the percentage compared""")
 # Graphics
 
 graph_bar_chart = st.empty()
@@ -100,13 +105,13 @@ graph_pie = st.empty()
 
 # bar chart #
 
-bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title="This graph shows the difference between the percentage of the sample and the percentage compared")
+bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title='%s %s results' % (name_csv[0], keyscolumn_select))
 bar.update_yaxes(title_text="Frequency Percent")
 bar.update_xaxes(title_text="Number")
 
 # line chart #
 
-lin = px.line(data_calculate, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000)
+lin = px.line(data_calculate, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000, title='%s %s results' % (name_csv[0], keyscolumn_select))
 lin.update_yaxes(title_text="Frequency Percent")
 lin.update_xaxes(title_text="Number")
 
@@ -246,9 +251,12 @@ with expander :
 #csv_bendata_zscore = pd.merge(data_calculate, z, how = 'inner', on = 'n')
 #csv_bendata_zscore_chi = pd.merge(csv_bendata_zscore, pd_chi, how = 'inner', on = 'n')
 #csv_all = pd.merge(csv_bendata_zscore_chi, pd_m_a_d, how = 'inner', on = 'n')
+#csv_all_round = csv_all.round(5)
 #export_as_csv = st.button("Export Report")
 #if export_as_csv:
-#    csv_all.to_csv(r'C:\Users\Ricardo\Downloads\\Ano-2017-vlrLiquido-results.csv', index = False, sep=",")
+    #csv_all.to_csv(r'C:\Users\Ricardo\Downloads\\Ano-2011-vlrDocumento-results.csv', index = False, sep=",")
+    #csv_all.to_csv(r'C:\Users\Ricardo\Downloads\\Ano-2011-vlrGlosa-results.csv', index = False, sep=",")
+    #csv_all_round.to_csv(r'C:\Users\Ricardo\Downloads\\%s-%s-results.csv' % (name_csv[0], keyscolumn_select), index = False, sep=",")
 
 
 #Script create base benford
