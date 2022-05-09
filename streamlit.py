@@ -1,3 +1,4 @@
+from unicodedata import name
 from functionBenford import *
 from calculateBenford import *
 from loadData import *
@@ -25,7 +26,7 @@ from scipy import linalg, optimize
 from scipy.stats import mannwhitneyu
 # streamlit header
 
-st.set_page_config(page_title="Newcomb-Benford Law", page_icon="📊", layout="centered")
+st.set_page_config(page_title="Bendata - A tool of Newcomb-Benford Law", page_icon="📊", layout="centered")
 lateral_bar = st.sidebar.empty()
 st.sidebar.subheader('Upload the results of your experiment to see the importance of using the Newcomb-Benford Law')
 st.title('''📊 Newcomb-Benford's Law''')
@@ -103,16 +104,16 @@ st.markdown("""This graph shows the difference between the percentage of the sam
 graph_bar_chart = st.empty()
 graph_pie = st.empty()
 
-# bar chart #
+# bar chart #title -- ,title='%s %s results' % (name_csv[0], keyscolumn_select)
 
-bar = px.bar(benford_table, x="n", y=["data_frequency_percent", "benford_frequency_percent"], barmode='group', height=500, width = 1000, title='%s %s results' % (name_csv[0], keyscolumn_select))
-bar.update_yaxes(title_text="Frequency Percent")
+bar = px.bar(benford_table, x="n", y=["data_frequency", "benford_frequency"], barmode='group', height=500, width = 1000)
+bar.update_yaxes(title_text="Frequency")
 bar.update_xaxes(title_text="Number")
 
 # line chart #
 
-lin = px.line(data_calculate, x="n", y=["data_frequency_percent", "benford_frequency_percent"], height=500, width = 1000, title='%s %s results' % (name_csv[0], keyscolumn_select))
-lin.update_yaxes(title_text="Frequency Percent")
+lin = px.line(data_calculate, x="n", y=["data_frequency", "benford_frequency"], height=500, width = 1000)
+lin.update_yaxes(title_text="Frequency")
 lin.update_xaxes(title_text="Number")
 
 try:
