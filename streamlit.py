@@ -29,7 +29,7 @@ from scipy.stats import mannwhitneyu
 st.set_page_config(page_title="Bendata - A tool of Newcomb-Benford Law", page_icon="📊", layout="centered")
 lateral_bar = st.sidebar.empty()
 st.sidebar.subheader('Upload the results of your experiment to see the importance of using the Newcomb-Benford Law')
-st.title('''📊 Newcomb-Benford's Law''')
+st.title('''📊 Bendata - A tool of Newcomb-Benford Law''')
 st.markdown("""---""")
 
 # load data via os
